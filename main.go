@@ -1,11 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "Welcome!\n")
+}
+
+func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
+}
+
 func main() {
-	log.Println("Listening at port 8080")
-	http.ListenAndServe(":8080", nil)
+	router := httprouter.New()
+	router.GET("/", Index)
+	router.GET("/hello/:name", Hello)
+
+	port := ":8080"
+	log.Println("Listening at port", port)
+	log.Fatal(http.ListenAndServe(port, router))
 }
