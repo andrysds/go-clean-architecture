@@ -9,6 +9,7 @@ import (
 	"github.com/andrysds/go-clean-architecture/repository"
 	"github.com/andrysds/go-clean-architecture/service"
 	"github.com/julienschmidt/httprouter"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
