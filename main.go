@@ -4,18 +4,29 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/andrysds/go-clean-architecture/connection"
 	"github.com/andrysds/go-clean-architecture/handler"
+	"github.com/andrysds/go-clean-architecture/repository"
 	"github.com/andrysds/go-clean-architecture/service"
 	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
+	// connections
+	db := connection.NewDB()
+
+	// repositories
+	friendRepository := &repository.FriendRepository{DB: db}
+
+	// services
+	friendService := &service.FriendService{FriendRepository: friendRepository}
+
+	// router & handlers
 	router := httprouter.New()
 
 	healthzHandler := &handler.HealthzHandler{}
 	router.GET("/healthz", healthzHandler.Index)
 
-	friendService := &service.FriendService{}
 	friendHandler := &handler.FriendHandler{FriendService: friendService}
 	router.GET("/friends", friendHandler.Index)
 	router.POST("/friends", friendHandler.Create)

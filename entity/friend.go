@@ -6,5 +6,5 @@ type Friend struct {
 	Name      string  `json:"name"`
 	Birthday  string  `json:"birthday"`
 	CreatedAt float64 `json:"created_at"`
-	UpdateAt  float64 `json:"updated_at"`
+	UpdatedAt float64 `json:"updated_at"`
 }

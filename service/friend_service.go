@@ -14,7 +14,7 @@ type FriendUseCase interface {
 
 // FriendService implements FriendUseCase
 type FriendService struct {
-	friendRepository interface {
+	FriendRepository interface {
 		FindAll() ([]*entity.Friend, error)
 		Create(*entity.Friend) (*entity.Friend, error)
 		Update(*entity.Friend) (*entity.Friend, error)
@@ -24,7 +24,7 @@ type FriendService struct {
 
 // GetFriends implements FriendUseCase.GetFriends
 func (s *FriendService) GetFriends() ([]*entity.Friend, error) {
-	friends, err := s.friendRepository.FindAll()
+	friends, err := s.FriendRepository.FindAll()
 
 	// write other business logic/rules here
 
@@ -33,7 +33,7 @@ func (s *FriendService) GetFriends() ([]*entity.Friend, error) {
 
 // CreateFriend implements FriendUseCase.CreateFriend
 func (s *FriendService) CreateFriend(friend *entity.Friend) (*entity.Friend, error) {
-	created, err := s.friendRepository.Create(friend)
+	created, err := s.FriendRepository.Create(friend)
 
 	// write other business logic/rules here
 
@@ -42,7 +42,7 @@ func (s *FriendService) CreateFriend(friend *entity.Friend) (*entity.Friend, err
 
 // UpdateFriend implements FriendUseCase.UpdateFriend
 func (s *FriendService) UpdateFriend(friend *entity.Friend) (*entity.Friend, error) {
-	updated, err := s.friendRepository.Update(friend)
+	updated, err := s.FriendRepository.Update(friend)
 
 	// write other business logic/rules here
 
@@ -51,7 +51,7 @@ func (s *FriendService) UpdateFriend(friend *entity.Friend) (*entity.Friend, err
 
 // DeleteFriend implements FriendUseCase.DeleteFriend
 func (s *FriendService) DeleteFriend(id int64) error {
-	err := s.friendRepository.Delete(id)
+	err := s.FriendRepository.Delete(id)
 
 	// write other business logic/rules here
 

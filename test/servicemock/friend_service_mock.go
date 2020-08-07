@@ -5,12 +5,12 @@ import (
 	"github.com/andrysds/go-clean-architecture/test/entitymock"
 )
 
-// FriendServiceMock is service.Friends mock
+// FriendServiceMock is service.FriendService mock
 type FriendServiceMock struct {
 	Err error
 }
 
-// GetFriends is service.Friends.GetFriends mock
+// GetFriends is service.FriendService.GetFriends mock
 func (m *FriendServiceMock) GetFriends() ([]*entity.Friend, error) {
 	if m.Err != nil {
 		return []*entity.Friend{}, m.Err
@@ -18,7 +18,7 @@ func (m *FriendServiceMock) GetFriends() ([]*entity.Friend, error) {
 	return entitymock.Friends, nil
 }
 
-// CreateFriend is service.Friends.CreateFriend mock
+// CreateFriend is service.FriendService.CreateFriend mock
 func (m *FriendServiceMock) CreateFriend(*entity.Friend) (*entity.Friend, error) {
 	if m.Err != nil {
 		return nil, m.Err
@@ -26,7 +26,7 @@ func (m *FriendServiceMock) CreateFriend(*entity.Friend) (*entity.Friend, error)
 	return entitymock.FriendAndrys, nil
 }
 
-// UpdateFriend is service.Friends.UpdateFriend mock
+// UpdateFriend is service.FriendService.UpdateFriend mock
 func (m *FriendServiceMock) UpdateFriend(*entity.Friend) (*entity.Friend, error) {
 	if m.Err != nil {
 		return nil, m.Err
@@ -34,7 +34,7 @@ func (m *FriendServiceMock) UpdateFriend(*entity.Friend) (*entity.Friend, error)
 	return entitymock.FriendBudi, nil
 }
 
-// DeleteFriend is service.Friends.DeleteFriend mock
+// DeleteFriend is service.FriendService.DeleteFriend mock
 func (m *FriendServiceMock) DeleteFriend(id int64) error {
 	return m.Err
 }

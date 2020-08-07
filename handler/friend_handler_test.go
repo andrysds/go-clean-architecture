@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var errFromFriendUseCase = errors.New("error from friendUseCase")
+var errFromFriendService = errors.New("error from FriendService")
 
 func TestFriendsHandlerIndex(t *testing.T) {
 	cases := []struct {
@@ -20,9 +20,9 @@ func TestFriendsHandlerIndex(t *testing.T) {
 		statusCode       int
 		response         string
 	}{
-		// context: got error from friendUseCase
+		// context: got error from FriendService
 		{
-			friendServiceErr: errFromFriendUseCase,
+			friendServiceErr: errFromFriendService,
 			statusCode:       http.StatusInternalServerError,
 			response:         responsemock.JSON("/others/internal_server_error.json"),
 		},
@@ -58,9 +58,9 @@ func TestFriendsHandlerCreate(t *testing.T) {
 		statusCode       int
 		response         string
 	}{
-		// context: got error from friendUseCase
+		// context: got error from FriendService
 		{
-			friendServiceErr: errFromFriendUseCase,
+			friendServiceErr: errFromFriendService,
 			statusCode:       http.StatusInternalServerError,
 			response:         responsemock.JSON("/others/internal_server_error.json"),
 		},
@@ -96,9 +96,9 @@ func TestFriendsHandlerUpdate(t *testing.T) {
 		statusCode       int
 		response         string
 	}{
-		// context: got error from friendUseCase
+		// context: got error from FriendService
 		{
-			friendServiceErr: errFromFriendUseCase,
+			friendServiceErr: errFromFriendService,
 			statusCode:       http.StatusInternalServerError,
 			response:         responsemock.JSON("/others/internal_server_error.json"),
 		},
@@ -134,9 +134,9 @@ func TestFriendsHandlerDelete(t *testing.T) {
 		statusCode       int
 		response         string
 	}{
-		// context: got error from friendUseCase
+		// context: got error from FriendService
 		{
-			friendServiceErr: errFromFriendUseCase,
+			friendServiceErr: errFromFriendService,
 			statusCode:       http.StatusInternalServerError,
 			response:         responsemock.JSON("/others/internal_server_error.json"),
 		},
