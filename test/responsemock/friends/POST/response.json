@@ -1,0 +1,12 @@
+{
+    "data": {
+        "id": 1,
+        "name": "Andrys",
+        "birthday": "2020-02-14",
+        "created_at": 1596781398923,
+        "updated_at": 1596781398923
+    },
+    "meta": {
+        "http_status": 201
+    }
+}
