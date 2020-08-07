@@ -11,12 +11,12 @@ import (
 
 // FriendHandler handle /friends routes
 type FriendHandler struct {
-	friendService service.FriendUseCase
+	FriendService service.FriendUseCase
 }
 
 // Index is a handler function for GET /friends
 func (h *FriendHandler) Index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	friends, err := h.friendService.GetFriends()
+	friends, err := h.FriendService.GetFriends()
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
 		return
@@ -34,7 +34,7 @@ func (h *FriendHandler) Index(w http.ResponseWriter, r *http.Request, ps httprou
 // Create is a handler function for POST /friends
 func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var friend *entity.Friend
-	created, err := h.friendService.CreateFriend(friend)
+	created, err := h.FriendService.CreateFriend(friend)
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
 		return
@@ -52,7 +52,7 @@ func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httpro
 // Update is a handler function for PUT /friends/:id
 func (h *FriendHandler) Update(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var friend *entity.Friend
-	updated, err := h.friendService.UpdateFriend(friend)
+	updated, err := h.FriendService.UpdateFriend(friend)
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
 		return
@@ -75,7 +75,7 @@ func (h *FriendHandler) Delete(w http.ResponseWriter, r *http.Request, ps httpro
 		return
 	}
 
-	err = h.friendService.DeleteFriend(id)
+	err = h.FriendService.DeleteFriend(id)
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
 		return

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/andrysds/go-clean-architecture/handler"
+	"github.com/andrysds/go-clean-architecture/service"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -14,7 +15,8 @@ func main() {
 	healthzHandler := &handler.HealthzHandler{}
 	router.GET("/healthz", healthzHandler.Index)
 
-	friendHandler := &handler.FriendHandler{}
+	friendService := &service.FriendService{}
+	friendHandler := &handler.FriendHandler{FriendService: friendService}
 	router.GET("/friends", friendHandler.Index)
 	router.POST("/friends", friendHandler.Create)
 	router.PUT("/friends/:id", friendHandler.Update)

@@ -36,7 +36,7 @@ func TestFriendsHandlerIndex(t *testing.T) {
 
 	for _, c := range cases {
 		handler := &FriendHandler{
-			friendService: &servicemock.FriendServiceMock{
+			FriendService: &servicemock.FriendServiceMock{
 				Err: c.friendServiceErr,
 			},
 		}
@@ -74,7 +74,7 @@ func TestFriendsHandlerCreate(t *testing.T) {
 
 	for _, c := range cases {
 		handler := &FriendHandler{
-			friendService: &servicemock.FriendServiceMock{
+			FriendService: &servicemock.FriendServiceMock{
 				Err: c.friendServiceErr,
 			},
 		}
@@ -112,7 +112,7 @@ func TestFriendsHandlerUpdate(t *testing.T) {
 
 	for _, c := range cases {
 		handler := &FriendHandler{
-			friendService: &servicemock.FriendServiceMock{
+			FriendService: &servicemock.FriendServiceMock{
 				Err: c.friendServiceErr,
 			},
 		}
@@ -150,7 +150,7 @@ func TestFriendsHandlerDelete(t *testing.T) {
 
 	for _, c := range cases {
 		handler := &FriendHandler{
-			friendService: &servicemock.FriendServiceMock{
+			FriendService: &servicemock.FriendServiceMock{
 				Err: c.friendServiceErr,
 			},
 		}
