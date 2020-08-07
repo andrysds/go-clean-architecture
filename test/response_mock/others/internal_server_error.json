@@ -1,0 +1,6 @@
+{
+    "message": "Internal Server Error!",
+    "meta": {
+        "http_status": 500
+    }
+}
