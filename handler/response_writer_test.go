@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	responsemock "github.com/andrysds/go-clean-architecture/test/response_mock"
+	"github.com/andrysds/go-clean-architecture/test/responsemock"
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
 )
@@ -15,7 +15,7 @@ func TestWriteInternalServerError(t *testing.T) {
 	request, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/test-write-internal-server-error", nil)
 
 	handleFunc := func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		WriteInternalServerError(w)
+		WriteInternalServerErrorResponse(w)
 	}
 
 	router := httprouter.New()

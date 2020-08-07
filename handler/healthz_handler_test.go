@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	responsemock "github.com/andrysds/go-clean-architecture/test/response_mock"
+	"github.com/andrysds/go-clean-architecture/test/responsemock"
 	"github.com/julienschmidt/httprouter"
 	"github.com/stretchr/testify/assert"
 )

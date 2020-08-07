@@ -28,8 +28,31 @@ type ResponseMeta struct {
 	HTTPStatus int `json:"http_status"`
 }
 
-// WriteInternalServerError writes internal server error response to the HTTP connection
-func WriteInternalServerError(w http.ResponseWriter) {
+// WriteResponse writes response to the HTTP connection
+func WriteResponse(w http.ResponseWriter, statusCode int, body interface{}) {
+	response, err := json.Marshal(body)
+	if err != nil {
+		WriteInternalServerErrorResponse(w)
+	}
+
+	w.WriteHeader(statusCode)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(response)
+}
+
+// WriteBadRequestResponse writes bad request response to the HTTP connection
+func WriteBadRequestResponse(w http.ResponseWriter) {
+	res := MessageResponse{
+		Message: "Bad Request!",
+		Meta: ResponseMeta{
+			HTTPStatus: http.StatusBadRequest,
+		},
+	}
+	WriteResponse(w, http.StatusBadRequest, res)
+}
+
+// WriteInternalServerErrorResponse writes internal server error response to the HTTP connection
+func WriteInternalServerErrorResponse(w http.ResponseWriter) {
 	res := MessageResponse{
 		Message: "Internal Server Error!",
 		Meta: ResponseMeta{
@@ -37,16 +60,4 @@ func WriteInternalServerError(w http.ResponseWriter) {
 		},
 	}
 	WriteResponse(w, http.StatusInternalServerError, res)
-}
-
-// WriteResponse writes response to the HTTP connection
-func WriteResponse(w http.ResponseWriter, statusCode int, body interface{}) {
-	response, err := json.Marshal(body)
-	if err != nil {
-		WriteInternalServerError(w)
-	}
-
-	w.WriteHeader(statusCode)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(response)
 }

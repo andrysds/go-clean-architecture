@@ -2,32 +2,30 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
+	"github.com/andrysds/go-clean-architecture/entity"
+	"github.com/andrysds/go-clean-architecture/service"
 	"github.com/julienschmidt/httprouter"
 )
 
 // FriendHandler handle /friends routes
 type FriendHandler struct {
-	friendUseCase interface {
-		GetFriends() ([]interface{}, error)
-		CreateFriend(httprouter.Params) (interface{}, error)
-		UpdateFriend(httprouter.Params) (interface{}, error)
-		DeleteFriend(httprouter.Params) error
-	}
+	friendService service.FriendUseCase
 }
 
 // Index is a handler function for GET /friends
 func (h *FriendHandler) Index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	friends, err := h.friendUseCase.GetFriends()
+	friends, err := h.friendService.GetFriends()
 	if err != nil {
-		WriteInternalServerError(w)
+		WriteInternalServerErrorResponse(w)
 		return
 	}
 
-	res := map[string]interface{}{
-		"data": friends,
-		"meta": map[string]interface{}{
-			"http_status": http.StatusOK,
+	res := DataResponse{
+		Data: friends,
+		Meta: ResponseMeta{
+			HTTPStatus: http.StatusOK,
 		},
 	}
 	WriteResponse(w, http.StatusOK, res)
@@ -35,16 +33,17 @@ func (h *FriendHandler) Index(w http.ResponseWriter, r *http.Request, ps httprou
 
 // Create is a handler function for POST /friends
 func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	friend, err := h.friendUseCase.CreateFriend(ps)
+	var friend *entity.Friend
+	created, err := h.friendService.CreateFriend(friend)
 	if err != nil {
-		WriteInternalServerError(w)
+		WriteInternalServerErrorResponse(w)
 		return
 	}
 
-	res := map[string]interface{}{
-		"data": friend,
-		"meta": map[string]interface{}{
-			"http_status": http.StatusCreated,
+	res := DataResponse{
+		Data: created,
+		Meta: ResponseMeta{
+			HTTPStatus: http.StatusCreated,
 		},
 	}
 	WriteResponse(w, http.StatusCreated, res)
@@ -52,16 +51,17 @@ func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httpro
 
 // Update is a handler function for PUT /friends/:id
 func (h *FriendHandler) Update(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	friend, err := h.friendUseCase.UpdateFriend(ps)
+	var friend *entity.Friend
+	updated, err := h.friendService.UpdateFriend(friend)
 	if err != nil {
-		WriteInternalServerError(w)
+		WriteInternalServerErrorResponse(w)
 		return
 	}
 
-	res := map[string]interface{}{
-		"data": friend,
-		"meta": map[string]interface{}{
-			"http_status": http.StatusAccepted,
+	res := DataResponse{
+		Data: updated,
+		Meta: ResponseMeta{
+			HTTPStatus: http.StatusAccepted,
 		},
 	}
 	WriteResponse(w, http.StatusAccepted, res)
@@ -69,16 +69,22 @@ func (h *FriendHandler) Update(w http.ResponseWriter, r *http.Request, ps httpro
 
 // Delete is a handler function for DELETE /friends/:id
 func (h *FriendHandler) Delete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	err := h.friendUseCase.DeleteFriend(ps)
+	id, err := strconv.ParseInt(ps.ByName("id"), 10, 64)
 	if err != nil {
-		WriteInternalServerError(w)
+		WriteBadRequestResponse(w)
 		return
 	}
 
-	res := map[string]interface{}{
-		"message": "Deleted!",
-		"meta": map[string]interface{}{
-			"http_status": http.StatusAccepted,
+	err = h.friendService.DeleteFriend(id)
+	if err != nil {
+		WriteInternalServerErrorResponse(w)
+		return
+	}
+
+	res := MessageResponse{
+		Message: "Deleted!",
+		Meta: ResponseMeta{
+			HTTPStatus: http.StatusAccepted,
 		},
 	}
 	WriteResponse(w, http.StatusAccepted, res)
