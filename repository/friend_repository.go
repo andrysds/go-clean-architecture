@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"strconv"
 
 	"github.com/andrysds/go-clean-architecture/entity"
 )
@@ -22,26 +21,15 @@ func (r *FriendRepository) FindAll() ([]*entity.Friend, error) {
 
 	friends := []*entity.Friend{}
 	for rows.Next() {
-		row := map[string]string{}
+		row := &entity.Friend{}
 		rows.Scan(
-			row["id"],
-			row["name"],
-			row["birthday"],
-			row["created_at"],
-			row["updated_at"],
+			&row.ID,
+			&row.Name,
+			&row.Birthday,
+			&row.CreatedAt,
+			&row.UpdatedAt,
 		)
-
-		id, _ := strconv.ParseInt(row["id"], 10, 64)
-		createdAt, _ := strconv.ParseFloat(row["created_at"], 64)
-		updatedAt, _ := strconv.ParseFloat(row["updated_at"], 64)
-
-		friends = append(friends, &entity.Friend{
-			ID:        id,
-			Name:      row["name"],
-			Birthday:  row["birthday"],
-			CreatedAt: createdAt,
-			UpdatedAt: updatedAt,
-		})
+		friends = append(friends, row)
 	}
 
 	return friends, nil
@@ -61,7 +49,6 @@ func (r *FriendRepository) Create(friend *entity.Friend) (*entity.Friend, error)
 		friend.Birthday,
 		friend.CreatedAt,
 		friend.UpdatedAt,
-		friend.ID,
 	)
 	if err != nil {
 		return nil, err

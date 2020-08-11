@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -34,6 +35,12 @@ func (h *FriendHandler) Index(w http.ResponseWriter, r *http.Request, ps httprou
 // Create is a handler function for POST /friends
 func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var friend *entity.Friend
+	err := json.NewDecoder(r.Body).Decode(&friend)
+	if err != nil {
+		WriteBadRequestResponse(w)
+		return
+	}
+
 	created, err := h.FriendService.CreateFriend(friend)
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
