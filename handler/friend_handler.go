@@ -59,6 +59,12 @@ func (h *FriendHandler) Create(w http.ResponseWriter, r *http.Request, ps httpro
 // Update is a handler function for PUT /friends/:id
 func (h *FriendHandler) Update(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var friend *entity.Friend
+	err := json.NewDecoder(r.Body).Decode(&friend)
+	if err != nil {
+		WriteBadRequestResponse(w)
+		return
+	}
+
 	updated, err := h.FriendService.UpdateFriend(friend)
 	if err != nil {
 		WriteInternalServerErrorResponse(w)
